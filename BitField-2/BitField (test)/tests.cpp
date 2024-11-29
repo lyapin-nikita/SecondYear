@@ -1,10 +1,11 @@
-#include "C:\Users\SystemX\source\repos\BitField-2\BitField (test)\pch.h"
+//#include <gtest/gtest.h>
+//#include <gmock/gmock.h>
 #include <iostream>
 #include <fstream>
 #include <chrono>
 #include <vector>
-#include "C:\Users\SystemX\source\repos\BitField-2\BitField (original)\BitField.h"
-#include "C:\Users\SystemX\source\repos\BitField-2\BitField (original)\Set.h"
+#include "BitField.h"
+#include "Set.h"
 
 TEST(TestGroupName, Subtest_1) {
     BitField bf(INT_MAX);

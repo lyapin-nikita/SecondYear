@@ -23,7 +23,7 @@ public:
         if (_power == _size)
         {
             (_size == 0) ? (_size = 10) : (_size *= 2);
-            T* new_array = T[_size];
+            T* new_array = new T[_size];
             for (size_t i = 0; i < _power; i++) { new_array[i] = _array[i]; }
             delete[] _array;
             _array = new_array;
@@ -35,11 +35,19 @@ public:
             
         _array[_power] = elem;
         _power++;
+
+        if (elem > _max) _max = elem;
+        if (elem < _min) _min = elem;
+
     }
 
     bool IsContains(T elem) 
     {
-        for (size_t i = 0; i < _size; i++) { (_array[i] == elem) ? (return true) : (continue); }
+        for (size_t i = 0; i < _size; i++) 
+        { 
+            if (_array[i] == elem) { return true; }
+        }
+        
         return false;
     }
 

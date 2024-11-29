@@ -2,7 +2,6 @@
 #include <iostream>
 #include <stdint.h>
 
-
 class BitField {
 private:
     size_t _sizeBit;
@@ -13,7 +12,6 @@ private:
     uint16_t GetMask(size_t n) const;
 
 public:
-    BitField();
     BitField(size_t len);
     BitField(const BitField& tmp);
     BitField& operator=(const BitField& tmp);
