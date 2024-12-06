@@ -1,13 +1,16 @@
-//#include <gtest/gtest.h>
-//#include <gmock/gmock.h>
-//#include "C:\Users\SystemX\source\repos\BitField-2\BitField-2\pch.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "Set.h"
+#include <iostream>
+using namespace std;
 
 
 int main(int argc, char **argv) {
 
-    /*::testing::InitGoogleTest(&argc, argv);
+    ::testing::InitGoogleTest(&argc, argv);
 
-    return RUN_ALL_TESTS();*/
+    return RUN_ALL_TESTS();
+    
     
     
 }

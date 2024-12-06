@@ -1,5 +1,5 @@
 #include "Set.h"
-//#include <conio.h>
+#include <conio.h>
 #include <algorithm>
 
 
@@ -194,7 +194,7 @@ std::vector<uint64_t> Set::GetPrimary()
 
 std::ostream& operator<<(std::ostream& os, const Set& osc)
 {
-        for (size_t i = 2; i < osc.GetMaxPower(); ++i) {
+        for (size_t i = 2; i < osc._maxPower; ++i) {
             if (osc.IsMember(i)) 
             {
                 os << i << " ";

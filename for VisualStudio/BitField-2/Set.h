@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <ostream>
+#include <iostream>
 #include "BitField.h"
 
 class Set
@@ -29,4 +31,9 @@ public:
   Set operator+ (const Set &s);  // объединение
   Set operator~ ();           // дополнение
   std::vector<uint64_t> GetPrimary(); // Выдать простые числа множества
+
+
+
+
+  friend std::ostream& operator<< (std::ostream& os, const Set& osc);
 };
