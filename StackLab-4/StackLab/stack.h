@@ -8,19 +8,19 @@
 
 
 #pragma once
+#include <iostream>
 
 
 // global 
 const size_t _maxMemSize = 10;
-typedef int T;								//type for class
 
 
 
-
+template <class T>
 class TStack
 {
 
-protected:
+private:
 	T* _mem;								//pointer to mem
 	size_t _memSize;						//size of mem massive
 	size_t _dataCount;						//count of stack's elements
@@ -37,19 +37,79 @@ public:
 
 	//methods
 	void put(const T& elem);
-	virtual T get();
+	T get();
+	T get(int);
 	int isEmpty();
 	int isFull();
 
 	TStack& operator= (const TStack& tmp);	//overload
-
+	size_t getMemSize() { return _memSize; };
+	size_t getDataCount() { return _dataCount; }
 	void showStack();						//output stack's elements
 	
 };
 
 
 
+template <class T>
+inline void TStack <T>::resize()
+{
+	T* tmp = new T[_memSize *= 2];
+	for (size_t i = 0; i <= _top; i++) { tmp[i] = _mem[i]; }
+	delete[] _mem;
+	_mem = tmp;
+}
 
+template <class T>
+void TStack<T>::put(const T& elem)
+{
+	if (this->isFull())  resize();
 
+	_top++;
+	_mem[_top] = elem;
+	_dataCount++;
+}
+
+template <class T>
+T TStack<T>::get()
+{
+	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
+	T res = _mem[_top];
+	_mem[_top] = 0;
+	--_dataCount;
+	--_top;
+	return res;
+}
+
+template<class T>
+inline T TStack<T>::get(int)
+{
+	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
+	T res = _mem[_top];
+	return res;
+}
+
+template <class T>
+int TStack<T>::isEmpty()
+{
+	return _dataCount == 0;
+}
+
+template <class T>
+int TStack<T>::isFull()
+{
+	return _dataCount == _memSize;
+}
+
+template <class T>
+void TStack <T>::showStack()
+{
+	std::cout << "Max size of stack: " << _memSize << "; Count of elements: " << _dataCount << std::endl;
+	if (isEmpty()) std::cout << "Stack is Empty!";
+	else {
+		size_t i = _dataCount;
+		for (size_t i = _dataCount; i > 0; i--) { std::cout << _mem[i - 1] << std::endl; }
+	}
+}
 
 
