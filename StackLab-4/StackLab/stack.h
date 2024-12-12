@@ -38,7 +38,7 @@ public:
 	//methods
 	void put(const T& elem);
 	T get();
-	T get(int);
+	T peek();
 	int isEmpty();
 	int isFull();
 
@@ -75,18 +75,16 @@ T TStack<T>::get()
 {
 	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
 	T res = _mem[_top];
-	_mem[_top] = 0;
 	--_dataCount;
 	--_top;
 	return res;
 }
 
 template<class T>
-inline T TStack<T>::get(int)
+inline T TStack<T>::peek()
 {
 	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
-	T res = _mem[_top];
-	return res;
+	return _mem[_top];
 }
 
 template <class T>

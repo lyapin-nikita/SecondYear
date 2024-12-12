@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="formula.cpp" />
     <ClCompile Include="MainTest.cpp" />
-    <ClCompile Include="stack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

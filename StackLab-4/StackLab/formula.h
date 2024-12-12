@@ -6,7 +6,7 @@
 
 
 
-// TODO: дописать
+// TODO: дописать вывод строк, вычисление значения
 
 
 
@@ -29,14 +29,25 @@ private:
 	char _formula[_maxLength];					//inputed string
 	char _postfixForm[_maxLength];				//postfix form
 
+	int CalculatePriority(char c);
+
 public:
 	TFormula()											//default
 	{
 		Input();
-		if (Checker() == 0) Converter();
+		if (Checker() == 0) 
+		{ 
+			Converter(); 
+		}
+		else
+		{
+			std::cout << "Incorrect Brackets!";
+		}
 	}
 
 	void Input();
+	void OutputInputStr();
+	void OutputPostFix();
 	int Checker();										//checking for the correct location of the brackets
 	void Converter();									//convert to postfix form
 	double Calculate();									
