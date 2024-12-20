@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <stdint.h>
+#include <map>
+#include <algorithm>
 
 
 class BitField {
@@ -32,6 +34,7 @@ public:
     BitField operator~(); 
     
     friend std::ostream& operator<<(std::ostream& os, const BitField& bf);
-    
+    friend std::string MorseCode(char c);
+    friend void EncodeToBitField(const std::string& text, BitField& bf);
     ~BitField(); 
 };

@@ -33,8 +33,13 @@ public:
   Set operator~ ();           // дополнение
   std::vector<uint64_t> GetPrimary(); // Выдать простые числа множества
 
-  friend std::string MorseCode(char c);
-  friend void EncodeToSet(const std::string& text, Set& morseSet);
+  void OutputBitField()
+  {
+    std::cout << _bitField << "\n";
+  }
+
+ 
+  friend std::ostream& operator<<(std::ostream& os, const Set& osc); 
 };
 
 

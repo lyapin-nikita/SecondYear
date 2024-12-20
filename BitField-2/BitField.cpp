@@ -135,3 +135,79 @@ uint16_t BitField::GetMask(size_t n) const
 {
     return 1 << (n % 16);
 }
+
+std::string MorseCode(char c) {
+    c = std::toupper(c); // Преобразуем в верхний регистр для упрощения
+    switch (c) {
+        case 'A': return ".-";
+        case 'B': return "-...";
+        case 'C': return "-.-.";
+        case 'D': return "-..";
+        case 'E': return ".";
+        case 'F': return "..-.";
+        case 'G': return "--.";
+        case 'H': return "....";
+        case 'I': return "..";
+        case 'J': return ".---";
+        case 'K': return "-.-";
+        case 'L': return ".-..";
+        case 'M': return "--";
+        case 'N': return "-.";
+        case 'O': return "---";
+        case 'P': return ".--.";
+        case 'Q': return "--.-";
+        case 'R': return ".-.";
+        case 'S': return "...";
+        case 'T': return "-";
+        case 'U': return "..-";
+        case 'V': return "...-";
+        case 'W': return ".--";
+        case 'X': return "-..-";
+        case 'Y': return "-.--";
+        case 'Z': return "--..";
+        case '1': return ".----";
+        case '2': return "..---";
+        case '3': return "...--";
+        case '4': return "....-";
+        case '5': return ".....";
+        case '6': return "-....";
+        case '7': return "--...";
+        case '8': return "---..";
+        case '9': return "----.";
+        case '0': return "-----";
+        case ' ': return "/";
+        default: return ""; // Символ не найден
+    }
+}
+
+void EncodeToBitField(const std::string& text, BitField& bf) {
+    std::string morseCode;
+    for (char c : text) {
+        morseCode += MorseCode(c);
+    }
+
+    if (morseCode.length() > bf.GetLength()) {
+        throw std::runtime_error("BitField is too small");
+    }
+
+    size_t bitIndex = 0;
+    // for (char c : morseCode) {
+    //     if (c == '.') {
+    //         bf.SetBit(bitIndex);
+    //     } else if (c == '-') {
+    //         bf.SetBit(bitIndex + 1);
+    //     }
+    //     bitIndex += 2; // для точки и тире
+    // }
+    for (int i = 0; i < bf.GetLength(); i++)
+    {
+        if (morseCode[i] == '-') bf.SetBit(i);
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, const BitField& bf) {
+    for (size_t i = 0; i < bf.GetLength(); ++i) {
+        os << static_cast<int>(bf.GetBit(i));
+    }
+    return os;
+}
