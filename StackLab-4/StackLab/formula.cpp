@@ -137,5 +137,6 @@ void TFormula::Converter()
 
 double TFormula::Calculate()
 {
-	return double();
+	
+	
 }

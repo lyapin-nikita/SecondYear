@@ -30,6 +30,8 @@ public:
     bool operator==(const BitField& tmp) const;
     bool operator!=(const BitField& tmp) const;  
     BitField operator~(); 
-
+    
+    friend std::ostream& operator<<(std::ostream& os, const BitField& bf);
+    
     ~BitField(); 
 };

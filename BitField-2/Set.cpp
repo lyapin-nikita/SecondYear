@@ -1,6 +1,4 @@
 #include "Set.h"
-//#include <conio.h>
-#include <algorithm>
 
 
 //TODO нужно переделать функции ввода, вывода(возможно), сравнения
@@ -163,31 +161,6 @@ std::vector<uint64_t> Set::GetPrimary()
     return result;
 }
 
-//std::vector<uint64_t> Set::GetPrimary() {
-//    bool isPrime;
-//    std::vector<uint64_t> prime_numbers;
-//    prime_numbers.push_back(1);
-//    for (int i = 2; i < _maxPower; i++) {
-//        isPrime = true;
-//        for (int j = 2; j < i - 1; j++) {
-//            if (i % j == 0) isPrime = false;
-//        }
-//        if (isPrime == true && IsMember(i) == true) prime_numbers.push_back(i);
-//    }
-//    return prime_numbers;
-//}
-
-//std::ostream& operator<<(std::ostream& os, const Set& osc) {
-//    for (size_t i = 0; i < _maxPower; ++i) {
-//        if (IsMember(i)) {
-//            os << i << " ";
-//        }
-//        if ((i + 1) % 10 == 0) { 
-//            os << "\n";
-//        }
-//    }
-//    return os;
-//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,4 +178,33 @@ std::ostream& operator<<(std::ostream& os, const Set& osc)
             }
         }
     return os;
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FOR ADD TASK
+
+
+
+
+std::string MorseCode(char c) {
+    std::map<char, std::string> morseCodeMap = {
+        {'A', ".-"}, {'B', "-..."}, {'C', "-.-."}, {'D', "-.."}, {'E', "."},
+        {'F', "..-."}, {'G', "--."}, {'H', "...."}, {'I', ".."}, {'J', ".---"},
+        {'K', "-.-"}, {'L', ".-.."}, {'M', "--"}, {'N', "-."}, {'O', "---"},
+        {'P', ".--."}, {'Q', "--.-"}, {'R', ".-."}, {'S', "..."}, {'T', "-"},
+        {'U', "..-"}, {'V', "...-"}, {'W', ".--"}, {'X', "-..-"}, {'Y', "-.--"},
+        {'Z', "--.."}, {'1', ".----"}, {'2', "..---"}, {'3', "...--"},
+        {'4', "....-"}, {'5', "....."}, {'6', "-...."}, {'7', "--..."},
+        {'8', "---.."}, {'9', "----."}, {'0', "-----"}, {' ', "/"}
+    };
+
+    char upperC = std::toupper(c); // Преобразуем в верхний регистр
+    auto it = morseCodeMap.find(upperC);
+    if (it != morseCodeMap.end()) {
+        return it->second;
+    } else {
+        return ""; // Символ не найден
+    }
 }

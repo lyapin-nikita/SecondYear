@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <map>
+#include <algorithm>
 #include "BitField.h"
 
 class Set
@@ -7,6 +9,7 @@ class Set
 private:
   size_t _maxPower;       // максимальная мощность множества
   BitField _bitField; // битовое поле для хранения характеристического вектора
+  
 public:
   Set(size_t mp);
   Set(const Set &s);       // конструктор копирования
@@ -29,4 +32,9 @@ public:
   Set operator+ (const Set &s);  // объединение
   Set operator~ ();           // дополнение
   std::vector<uint64_t> GetPrimary(); // Выдать простые числа множества
+
+  friend std::string MorseCode(char c);
+  friend void EncodeToSet(const std::string& text, Set& morseSet);
 };
+
+
