@@ -16,6 +16,7 @@ int main(void)
 	//manual testing of stack
 	TFormula test1;
 	test1.OutputPostFix();
+	cout << "\n" << test1.Calculate();
 	
 
 }

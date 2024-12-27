@@ -52,3 +52,6 @@ public:
 	void Converter();									//convert to postfix form
 	double Calculate();									
 };
+
+
+
