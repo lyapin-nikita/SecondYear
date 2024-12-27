@@ -191,23 +191,54 @@ void EncodeToBitField(const std::string& text, BitField& bf) {
     }
 
     size_t bitIndex = 0;
-    // for (char c : morseCode) {
-    //     if (c == '.') {
-    //         bf.SetBit(bitIndex);
-    //     } else if (c == '-') {
-    //         bf.SetBit(bitIndex + 1);
-    //     }
-    //     bitIndex += 2; // для точки и тире
-    // }
     for (int i = 0; i < bf.GetLength(); i++)
     {
         if (morseCode[i] == '-') bf.SetBit(i);
     }
 }
 
+
+
 std::ostream& operator<<(std::ostream& os, const BitField& bf) {
     for (size_t i = 0; i < bf.GetLength(); ++i) {
         os << static_cast<int>(bf.GetBit(i));
     }
     return os;
+}
+
+
+std::string DecodeFromBitField(const BitField& bf) {
+    std::string morseCode;
+    for (size_t i = 0; i < bf.GetLength(); ++i) {
+        morseCode += (bf.GetBit(i) ? '-' : '.');
+    }
+
+    std::map<std::string, char> morseToChar;
+
+    for (char c = 'A'; c <= 'Z'; ++c) 
+    {
+        morseToChar[MorseCode(c)] = c;
+    }
+
+    for (char c = '0'; c <= '9'; ++c)
+    {
+        morseToChar[MorseCode(c)] = c;
+    }
+    
+    morseToChar[MorseCode(' ')] = ' ';
+
+    std::string decodedText;
+    std::string currentMorse;
+    for (char c : morseCode) {
+        currentMorse += c;
+        if (morseToChar.count(currentMorse)) {
+            decodedText += morseToChar[currentMorse];
+            currentMorse = "";
+        }
+        if (c == '/') {
+            decodedText += ' ';
+            currentMorse = "";
+        }
+    }
+    return decodedText;
 }

@@ -20,6 +20,7 @@ public:
     BitField(const BitField& tmp);
     BitField& operator=(const BitField& tmp);
     
+    
     size_t GetLength() const; 
     void SetBit(size_t n);
     void ClrBit(size_t n); 
@@ -33,8 +34,10 @@ public:
     bool operator!=(const BitField& tmp) const;  
     BitField operator~(); 
     
+
     friend std::ostream& operator<<(std::ostream& os, const BitField& bf);
     friend std::string MorseCode(char c);
     friend void EncodeToBitField(const std::string& text, BitField& bf);
+    friend std::string DecodeFromBitField(const BitField& bf);
     ~BitField(); 
 };

@@ -15,7 +15,6 @@ int main(int argc, char **argv) {
     BitField _morseTest(100);
     EncodeToBitField("Hello World", _morseTest);
     std::cout << _morseTest << std::endl;
-
-
-    
+    std::cout << DecodeFromBitField(_morseTest) << std::endl;
+ 
 }
