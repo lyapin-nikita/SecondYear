@@ -9,12 +9,12 @@ using namespace std;
 int main(int argc, char **argv) {
 
     // ::testing::InitGoogleTest(&argc, argv);
-
     // return RUN_ALL_TESTS();
     
     BitField _morseTest(100);
     EncodeToBitField("Hello World", _morseTest);
     std::cout << _morseTest << std::endl;
-    std::cout << DecodeFromBitField(_morseTest) << std::endl;
- 
+    
+    cout << DecodeFromBitField(_morseTest);
+    
 }

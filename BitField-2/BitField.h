@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <map>
 #include <algorithm>
+#include <vector>
 
 
 class BitField {
@@ -10,6 +11,8 @@ private:
     size_t _sizeBit;
     uint16_t* _mem;
     size_t _memSize;
+
+    std::vector<int> _masForMorse; //массив для работы с азбукой морзе
 
     size_t GetMemIndex(size_t n) const;
     uint16_t GetMask(size_t n) const;
@@ -39,5 +42,6 @@ public:
     friend std::string MorseCode(char c);
     friend void EncodeToBitField(const std::string& text, BitField& bf);
     friend std::string DecodeFromBitField(const BitField& bf);
+    friend char DecodeMorseChar(const std::string& morseCode);
     ~BitField(); 
 };
