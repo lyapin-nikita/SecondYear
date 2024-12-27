@@ -1,4 +1,4 @@
-#include "utmatrix (копия).h"
+#include "utmatrix.h"
 #include <iostream>
 
 
@@ -8,7 +8,4 @@ int main(void)
 {
     TMatrix <int> test1;
     std::cout << test1 << "\n\n\n";
-
-
-
 }
