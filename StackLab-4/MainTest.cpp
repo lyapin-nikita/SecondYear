@@ -18,7 +18,6 @@ int main(void)
 	// test1.OutputPostFix();
 	// cout << "\n" << test1.Calculate();
 
-	TFormula test2;
-	test2.OutputInputStr2();
+	
 
 }
