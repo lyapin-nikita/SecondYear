@@ -24,90 +24,187 @@ private:
 	T* _mem;								//pointer to mem
 	size_t _memSize;						//size of mem massive
 	size_t _dataCount;						//count of stack's elements
-	size_t _top;
+	int _top;
 
-	void resize();
-	//virtual size_t getNextIndex(size_t i);
+
+
+
 
 public:
-	TStack(size_t sz = 10) : _dataCount(0), _memSize(sz), _top(-1), _mem(new T[sz])
-	{};										//default
-	TStack(const TStack& tmp);				//copy
-	~TStack() { delete[] _mem; };			//destructor
+	TStack(size_t sz = 10)
+	 : _memSize(sz), _dataCount(0), _top(0), _mem(new T[sz])
+	{};
+											//default
+	TStack(const TStack& tmp)
+	 : _memSize(tmp._memSize), _dataCount(tmp._dataCount), _top(tmp._top), _mem(new T[tmp._memSize])
+	{
+		for (size_t i = 0; i < tmp._dataCount; i++)
+		{
+			_mem[i] = tmp._mem[i];
+		}
+	};		
+											//copy
+	TStack(TStack && tmp) noexcept
+	 : _mem(tmp._mem), _memSize(tmp._memSize), _dataCount(tmp._dataCount), _top(tmp._top)
+	{
+		for (size_t i = 0; i < tmp._dataCount; i++)
+		{
+			_mem[i] = tmp._mem[i];
+		}
+
+		tmp._mem = nullptr;
+        tmp._memSize = 0;
+        tmp._dataCount = 0;
+        tmp._top = -1;
+	}	
+											//move
+	~TStack() noexcept
+	{
+		delete[] _mem;
+	};						
+											//destructor
+
+
+
+
+
+	//operators
+	TStack& operator= (const TStack& tmp)	//copy
+	{
+		if (this != &tmp) 
+		{ 
+            T* newMem = new T[tmp._memSize]; 
+
+            for (size_t i = 0; i < tmp._dataCount; i++) 
+			{
+                newMem[i] = tmp._mem[i];
+            }
+
+            delete[] _mem;
+            _mem = newMem;
+            _memSize = tmp._memSize;
+            _dataCount = tmp._dataCount;
+            _top = tmp._top;
+        }
+        return *this;
+	};
+	TStack& operator= (TStack&& tmp) noexcept
+	{
+		if (this != &tmp) 
+		{
+            delete[] _mem;
+
+            _mem = tmp._mem;
+            _memSize = tmp._memSize;
+            _dataCount = tmp._dataCount;
+            _top = tmp._top;
+
+            
+            tmp._mem = nullptr;
+            tmp._memSize = 0;
+            tmp._dataCount = 0;
+            tmp._top = -1;
+        }
+        return *this;
+	}	
 
 	//methods
-	void put(const T& elem);
-	T get();
-	T peek();
-	int isEmpty();
-	int isFull();
+	void resize();				//_memSize *=2
+	void put(const T& elem);	//==push
+	T get(); 					//==pop
+	T peek() const;				//==const pop
+	int isEmpty() const noexcept;
+	int isFull() const noexcept;
 
-	TStack& operator= (const TStack& tmp);	//overload
-	size_t getMemSize() { return _memSize; };
-	size_t getDataCount() { return _dataCount; }
-	void showStack();						//output stack's elements
+	size_t getMemSize() const noexcept { return _memSize; };
+	size_t getDataCount() const noexcept { return _dataCount; }
+	void showStack() const;										//output stack's elements
 	
 };
 
 
 
+
 template <class T>
-inline void TStack <T>::resize()
+void TStack<T>::resize()
 {
-	T* tmp = new T[_memSize *= 2];
-	for (size_t i = 0; i <= _top; i++) { tmp[i] = _mem[i]; }
-	delete[] _mem;
-	_mem = tmp;
+    size_t newSize = _memSize * 2;
+
+    T* tmp = new T[newSize];
+    for (size_t i = 0; i <= _top; ++i) 
+	{
+        tmp[i] = _mem[i];
+    }
+
+    delete[] _mem;
+    _mem = tmp;
+    _memSize = newSize;
 }
 
 template <class T>
 void TStack<T>::put(const T& elem)
 {
-	if (this->isFull())  resize();
+    if (isFull()) 
+	{
+        resize();
+    }
 
-	_top++;
-	_mem[_top] = elem;
-	_dataCount++;
+    _mem[++_top] = elem;
+    _dataCount++;
 }
 
 template <class T>
 T TStack<T>::get()
 {
-	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
-	T res = _mem[_top];
-	--_dataCount;
-	--_top;
-	return res;
-}
+    if (isEmpty())
+	{
+        throw std::out_of_range("stack is empty.");
+    }
 
-template<class T>
-inline T TStack<T>::peek()
-{
-	if (this->isEmpty()) { throw std::out_of_range("Stack is empty!"); }
-	return _mem[_top];
+    T res = _mem[_top--];
+    _dataCount--;
+    return res;
 }
 
 template <class T>
-int TStack<T>::isEmpty()
+T TStack<T>::peek() const
 {
-	return _dataCount == 0;
+    if (isEmpty()) 
+	{
+        throw std::out_of_range("stack is empty.");
+    }
+
+    return _mem[_top];
 }
 
 template <class T>
-int TStack<T>::isFull()
+int TStack<T>::isEmpty() const noexcept
 {
-	return _dataCount == _memSize;
+    return _dataCount == 0;
 }
 
 template <class T>
-void TStack <T>::showStack()
+int TStack<T>::isFull() const noexcept
 {
-	std::cout << "Max size of stack: " << _memSize << "; Count of elements: " << _dataCount << std::endl;
-	if (isEmpty()) std::cout << "Stack is Empty!";
-	else {
-		size_t i = _dataCount;
-		for (size_t i = _dataCount; i > 0; i--) { std::cout << _mem[i - 1] << std::endl; }
-	}
+    return _dataCount == _memSize;
+}
+
+template <class T>
+void TStack<T>::showStack() const
+{
+    std::cout << "Max size of stack: " << _memSize << 
+	"; Count of elements: " << _dataCount << std::endl;
+    if (isEmpty()) 
+	{
+        std::cout << "Stack is empty.";
+    }
+	 else 
+	{
+        for (size_t i = _dataCount - 1; i >= 0; --i) 
+		{
+            std::cout << _mem[i] << std::endl;
+        }
+    }
 }
 
 
