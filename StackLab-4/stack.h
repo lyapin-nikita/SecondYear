@@ -21,7 +21,7 @@ class TStack
 {
 
 private:
-	T* _mem;								//pointer to mem
+	T* mem;			//pointer to mem
 	size_t _memSize;						//size of mem massive
 	size_t _dataCount;						//count of stack's elements
 	int _top;
@@ -108,6 +108,7 @@ public:
         return *this;
 	}	
 
+
 	//methods
 	void resize();				//_memSize *=2
 	void put(const T& elem);	//==push
@@ -123,6 +124,18 @@ public:
 };
 
 
+    template <class T>
+    std::ostream& operator<<(std::ostream& os, const TStack<T>& stack) {
+        if (stack.isEmpty()) {
+            os << "Stack is empty.";
+        }
+        else {
+            for (int i = stack.getDataCount() - 1; i >= 0; --i) {
+                os << stack.peek() << " "; // ������� �������� �����
+            }
+        }
+        return os;
+    }
 
 
 template <class T>

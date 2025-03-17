@@ -11,13 +11,20 @@ using namespace std;
 
 
 
-int main(void)
+int main() 
 {
-	//manual testing of stack
-	// TFormula test1;
-	// test1.OutputPostFix();
-	// cout << "\n" << test1.Calculate();
 
-	
+	try
+	{
+		TFormula formula(InfixFormInput());
+		std::cout << "Postfix form: " << formula.getPostfixForm() << std::endl;
+		std::cout << "Result: " << formula.Calculate() << std::endl;
+	}
+	catch (const std::exception& troubles)
+	{
+		std::cerr << troubles.what();
+	}
 
+
+    return 0;
 }
