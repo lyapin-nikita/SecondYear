@@ -95,7 +95,7 @@ public:
     T& operator[](size_t index) 
     {
         if (index >= size) {
-            throw std::out_of_range("Index out of range");
+            throw std::out_of_range("out of range");
         }
         Node<T>* current = head;
         for (size_t i = 0; i < index; ++i) {
@@ -108,7 +108,7 @@ public:
     void erase(size_t index) 
     {
         if (index >= size) {
-            throw std::out_of_range("Index out of range");
+            throw std::out_of_range("out of range");
         }
 
         if (index == 0) {
@@ -117,7 +117,7 @@ public:
         }
 
         Node<T>* current = head;
-        Node<T>* prev = nullptr; // Keep track of the previous node
+        Node<T>* prev = nullptr; // 
 
         for (size_t i = 0; i < index; ++i) {
             prev = current;
@@ -252,7 +252,7 @@ class TPolinom {
 private:
     TList<TMonom> monoms; // Список мономов
 
-    // Упрощение полинома (сложение одинаковых мономов)
+    //simplifying the polynomial
     void simplify() {
         for (size_t i = 0; i < monoms.getSize(); ++i) {
             for (size_t j = i + 1; j < monoms.getSize(); ++j) {
@@ -266,13 +266,14 @@ private:
     }
 
 public:
-    // Добавление монома в полином
-    void addMonom(const TMonom& monom) {
+    
+    void addMonom(const TMonom& monom) 
+    {
         monoms.push_back(monom);
         simplify(); // Упрощаем полином после добавления
     }
 
-    // Сложение полиномов
+   
     TPolinom operator+(const TPolinom& other) const {
         TPolinom result = *this;
         for (size_t i = 0; i < other.monoms.getSize(); ++i) {
@@ -281,7 +282,7 @@ public:
         return result;
     }
 
-    // Вычитание полиномов
+    
     TPolinom operator-(const TPolinom& other) const {
         TPolinom result = *this;
         for (size_t i = 0; i < other.monoms.getSize(); ++i) {
@@ -292,7 +293,7 @@ public:
         return result;
     }
 
-    // Умножение полиномов
+    
     TPolinom operator*(const TPolinom& other) const {
         TPolinom result;
         for (size_t i = 0; i < monoms.getSize(); ++i) {
@@ -303,7 +304,7 @@ public:
         return result;
     }
 
-    // Деление полиномов (упрощенное, без остатка)
+    
     TPolinom operator/(const TPolinom& other) const {
         TPolinom result;
         for (size_t i = 0; i < monoms.getSize(); ++i) {
@@ -316,7 +317,7 @@ public:
 
     
 
-    // Возведение полинома в степень
+    
     TPolinom pow(int power) const {
         TPolinom result;
         for (size_t i = 0; i < monoms.getSize(); ++i) {
@@ -325,7 +326,7 @@ public:
         return result;
     }
 
-    // Вывод полинома
+    //output
     void print() const {
         for (size_t i = 0; i < monoms.getSize(); ++i) {
             monoms[i].print();
