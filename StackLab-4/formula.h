@@ -7,57 +7,6 @@
 
 
 
-
-
-
-
-
-// #pragma once
-// #include "stack.h"
-// #include <iostream>
-// #include <vector>
-
-
-// const size_t _maxLength = 255;
-
-
-
-
-
-// class TFormula
-// {
-// private:
-// 	char _formula[_maxLength];					//inputed string
-// 	char _postfixForm[_maxLength];
-// 	std::vector<std::string> _formula2[_maxLength];
-// 	std::vector<std::string> _postfixForm2[_maxLength];				//postfix form
-
-// 	int CalculatePriority(char c);
-// 	int CalculatePriority2(std::string str);
-
-// public:
-// 	TFormula()											//default
-// 	{
-// 		Input2();
-// 		// if (Checker() == 0) 
-// 		// { 
-// 		// 	Converter(); 
-// 		// }
-// 		// else
-// 		// {
-// 		// 	std::cout << "Incorrect Brackets!";
-// 		// }
-// 	}
-
-// 	void Input();
-// 	void Input2();
-// 	void OutputInputStr2();
-// 	void OutputPostFix();
-// 	int Checker();										//checking for the correct location of the brackets
-// 	void Converter();									//convert to postfix form
-// 	double Calculate();									
-// };
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -74,7 +23,7 @@ private:
 public:
     TFormula(const std::string& infixForm) : _infixForm(infixForm) {
         if (!checkBrackets()) {
-            throw std::exception("Incorrect placement of brackets");
+            throw std::logic_error("Incorrect placement of brackets");
         }
         ConvertToPostfix();
     }
@@ -87,7 +36,7 @@ public:
     void ConvertToPostfix();
     double Calculate();
 
-    const std::string& getPostfixForm() const { return _postfixForm; } // Добавлено для отладки
+    const std::string& getPostfixForm() const { return _postfixForm; } 
 };
 
 bool TFormula::isValid(const std::string& expression) {
@@ -118,11 +67,13 @@ bool TFormula::checkBrackets() const {
     for (size_t i = 0; i < _infixForm.length(); ++i) {
         char ch = _infixForm[i];
 
-        if (ch == '(') {
+        if (ch == '(') 
+        {
             // Запоминаем индекс открывающей скобки
             stack.put(i);
         }
-        else if (ch == ')') {
+        else if (ch == ')') 
+        {
             if (stack.isEmpty()) {
                 // Если стек пуст, значит, закрывающая скобка без соответствующей открывающей
                 std::cerr << "Error: Extra closing bracket at position " << i << std::endl;
@@ -161,24 +112,21 @@ void TFormula::ConvertToPostfix() {
 
     std::stringstream postfix;
     TStack<std::string> stack;
-    std::string numberBuffer = ""; // Буфер для хранения цифр многозначного числа
+    std::string numberBuffer = "";
 
     for (size_t i = 0; i < _infixForm.length(); ++i) {
         char ch = _infixForm[i];
 
         if (isdigit(ch) || ch == '.') {
-            // Накапливаем цифры и точки (для десятичных чисел) в буфере
             numberBuffer += ch;
         }
         else if (ch == ' ') {
-            // Пропускаем пробелы
             continue;
         }
         else {
-            // Если встретили не цифру, добавляем число из буфера в postfix (если он не пустой)
             if (!numberBuffer.empty()) {
-                postfix << numberBuffer << " "; // Добавляем пробел для разделения чисел
-                numberBuffer = ""; // Очищаем буфер
+                postfix << numberBuffer << " ";
+                numberBuffer = "";
             }
 
             if (ch == '(') {
@@ -189,7 +137,7 @@ void TFormula::ConvertToPostfix() {
                     postfix << stack.get() << " ";
                 }
                 if (!stack.isEmpty() && stack.peek() == "(") {
-                    stack.get(); // Удаляем открывающую скобку
+                    stack.get();
                 }
                 else {
                     throw std::runtime_error("Mismatched parentheses");
@@ -197,14 +145,14 @@ void TFormula::ConvertToPostfix() {
             }
             else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
                 // Обработка унарного минуса
-                if (ch == '-' && (i == 0 || _infixForm[i - 1] == '(' || _infixForm[i - 1] == '+' || _infixForm[i - 1] == '-' || _infixForm[i - 1] == '*' || _infixForm[i - 1] == '/')) {
-                    // Это унарный минус
-                    stack.put("~"); // Используем ~ для обозначения унарного минуса
+                if (ch == '-' && (i == 0 || _infixForm[i-1] == '(' || 
+                                 ispunct(_infixForm[i-1]) && _infixForm[i-1] != ')')) {
+                    stack.put("~");
                 }
                 else {
-                    // Это бинарный оператор
                     std::string op(1, ch);
-                    while (!stack.isEmpty() && precedence(op) <= precedence(stack.peek())) {
+                    while (!stack.isEmpty() && stack.peek() != "(" && 
+                           precedence(op) <= precedence(stack.peek())) {
                         postfix << stack.get() << " ";
                     }
                     stack.put(op);
@@ -216,12 +164,10 @@ void TFormula::ConvertToPostfix() {
         }
     }
 
-    // Добавляем оставшееся число из буфера в postfix (если он не пустой)
     if (!numberBuffer.empty()) {
         postfix << numberBuffer << " ";
     }
 
-    // Добавляем оставшиеся операторы из стека в postfix
     while (!stack.isEmpty()) {
         if (stack.peek() == "(") {
             throw std::runtime_error("Mismatched parentheses");
@@ -229,7 +175,6 @@ void TFormula::ConvertToPostfix() {
         postfix << stack.get() << " ";
     }
 
-    // Убираем лишние пробелы в конце
     std::string result = postfix.str();
     if (!result.empty() && result.back() == ' ') {
         result.pop_back();
@@ -311,34 +256,99 @@ double TFormula::Calculate() {
 std::string InfixFormInput() {
     std::string infix;
     std::string infixResult = "";
-    double value = 0; // Для параметров
+    double value = 0;
     std::cout << "Input infix form expression: ";
     std::getline(std::cin, infix);
 
-    for (size_t i = 0; i < infix.length(); ++i)
-    {
+    for (size_t i = 0; i < infix.length(); ++i) {
         char c = infix[i];
 
-        if (std::isalpha(c)) 
-        {                                           // Поддержка переменных в любом регистре
+        if (std::isalpha(c)) {
             std::cout << c << ": ";
             std::cin >> value;
-            infixResult += std::to_string(value);
+            std::string varValue = std::to_string(value);
+            if (value < 0) {
+                varValue = "(" + varValue + ")";
+            }
+            infixResult += varValue;
         }
-        else if (c == '*' || c == '/' || c == '+' || c == '-' || c == '(' || c == ')') 
+        //обработка унарного минуса
+        else if (c == '-' && (i == 0 || infix[i-1] == '(' || 
+                             (ispunct(infix[i-1]) && infix[i-1] != ')'))) 
+            {
+            std::string unaryMinus = "-";
+            i++; 
+            
+            // Собираем все последующие унарные минусы
+            while (i < infix.length() && infix[i] == '-') {
+                unaryMinus += "-";
+                i++;
+            }
+            
+            // Возвращаемся на один символ назад, так как цикл for тоже увеличит i
+            i--;
+            
+            
+            std::string nextElement;
+            if (i+1 < infix.length()) {
+                if (infix[i+1] == '(') {
+                    
+                    int bracketCount = 1;
+                    nextElement += infix[++i]; //добавляем '('
+                    while (++i < infix.length() && bracketCount > 0) {
+                        nextElement += infix[i];
+                        if (infix[i] == '(') bracketCount++;
+                        else if (infix[i] == ')') bracketCount--;
+                    }
+                    i--; //коррекция позиции
+                }
+                else if (std::isdigit(infix[i+1])) {
+
+                    while (i+1 < infix.length() && (std::isdigit(infix[i+1]) || infix[i+1] == '.')) {
+                        nextElement += infix[++i];
+                    }
+                }
+                else if (std::isalpha(infix[i+1])) {
+                    // Если после минусов идет переменная
+                    char var = infix[++i];
+                    std::cout << var << ": ";
+                    std::cin >> value;
+                    nextElement = std::to_string(value);
+                    if (value < 0) {
+                        nextElement = "(" + nextElement + ")";
+                    }
+                }
+            }
+            
+            // Формируем выражение с унарными минусами
+            std::string wrapped;
+            for (size_t j = 0; j < unaryMinus.length(); j++) {
+                if (j == 0)
+                {
+                    wrapped = "(" + std::string(1, unaryMinus[j]) + nextElement + ")";
+                }
+
+                else
+                {
+                    wrapped = "(" + std::string(1, unaryMinus[j]) + wrapped + ")";
+                }
+            }
+            
+            infixResult += wrapped;
+        }
+        else if (c == '*' || c == '/' || c == '+' || c == '-' ||  c == '(' || c == ')') 
         {
             infixResult += c;
         }
-        else if (std::isdigit(c)) 
+        else if (std::isdigit(c))
         {
             infixResult += c;
         }
-        else 
-        {
+        else {
             continue;
         }
     }
 
-    std::cout << infixResult << "\n\n";
+    std::cout << "infixform input: " << infixResult << "\n\n";
     return infixResult;
 }

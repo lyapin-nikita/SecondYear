@@ -21,7 +21,7 @@ class TStack
 {
 
 private:
-	T* mem;			//pointer to mem
+	T* _mem;			                    //pointer to mem
 	size_t _memSize;						//size of mem massive
 	size_t _dataCount;						//count of stack's elements
 	int _top;
@@ -31,10 +31,13 @@ private:
 
 
 public:
-	TStack(size_t sz = 10)
+	TStack(size_t sz = 100)
 	 : _memSize(sz), _dataCount(0), _top(0), _mem(new T[sz])
 	{};
 											//default
+
+
+
 	TStack(const TStack& tmp)
 	 : _memSize(tmp._memSize), _dataCount(tmp._dataCount), _top(tmp._top), _mem(new T[tmp._memSize])
 	{
@@ -42,8 +45,10 @@ public:
 		{
 			_mem[i] = tmp._mem[i];
 		}
-	};		
-											//copy
+	};						//copy
+
+
+
 	TStack(TStack && tmp) noexcept
 	 : _mem(tmp._mem), _memSize(tmp._memSize), _dataCount(tmp._dataCount), _top(tmp._top)
 	{
@@ -58,6 +63,10 @@ public:
         tmp._top = -1;
 	}	
 											//move
+
+
+
+                                            
 	~TStack() noexcept
 	{
 		delete[] _mem;
