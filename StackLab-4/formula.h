@@ -264,14 +264,24 @@ std::string InfixFormInput() {
         char c = infix[i];
 
         if (std::isalpha(c)) {
-            std::cout << c << ": ";
+            std::string variable;
+            while (i < infix.length() && std::isalpha(infix[i])) 
+            {
+                variable += infix[i++];
+            }
+            i--; //нужно сделать шаг обратно тк в цикле мы использует постинкремент
+
+            std::cout << variable << ": ";
             std::cin >> value;
             std::string varValue = std::to_string(value);
-            if (value < 0) {
+            if (value < 0) 
+            {
                 varValue = "(" + varValue + ")";
             }
             infixResult += varValue;
         }
+
+
         //обработка унарного минуса
         else if (c == '-' && (i == 0 || infix[i-1] == '(' || 
                              (ispunct(infix[i-1]) && infix[i-1] != ')'))) 
