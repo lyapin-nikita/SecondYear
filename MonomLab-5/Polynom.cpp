@@ -206,3 +206,8 @@ std::tuple<Polynom, Polynom> Polynom::operator/(const Polynom& divisor) const {
 
     return std::make_tuple(quotient, remainder);
 }
+
+
+
+
+

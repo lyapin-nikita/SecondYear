@@ -188,8 +188,12 @@ double TFormula::Calculate() {
     std::string token;
     std::stringstream postfix(_postfixForm);
 
-    while (postfix >> token) {
-        if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-' && isdigit(token[1]))) {
+    while (postfix >> token) 
+    {
+        //std::cout << "cur token: " << token << std::endl;
+    
+        if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-' && isdigit(token[1]))) 
+        {
             // Обрабатываем числа, включая отрицательные
             stack.put(std::stod(token));
         }
@@ -264,20 +268,21 @@ std::string InfixFormInput() {
         char c = infix[i];
 
         if (std::isalpha(c)) {
-            std::string variable;
+            std::string tmp;
             while (i < infix.length() && std::isalpha(infix[i])) 
             {
-                variable += infix[i++];
+                tmp += infix[i++];
             }
             i--; //нужно сделать шаг обратно тк в цикле мы использует постинкремент
 
-            std::cout << variable << ": ";
+            std::cout << tmp << ": ";
             std::cin >> value;
             std::string varValue = std::to_string(value);
             if (value < 0) 
             {
                 varValue = "(" + varValue + ")";
             }
+            //конкатенируем к результирущей строке
             infixResult += varValue;
         }
 
