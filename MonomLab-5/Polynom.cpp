@@ -74,22 +74,40 @@ void Polynom::DeleteMonom(Node *monom) {
 }
 
 void Polynom::Print() {
+    if (_head == nullptr) {
+        cout << "0" << endl;
+        return;
+    }
+
     Node* tmp = _head;
-    string res = "";
+    bool isFirst = true;
+    string res;
+
     while (tmp != nullptr) {
-        if (tmp == _head){
-            res += tmp->GetMonom().Print();
+        string monomStr = tmp->GetMonom().Print();
+        if (monomStr.empty()) {
+            tmp = tmp->Next;
+            continue;
+        }
+
+        if (!isFirst) {
+            if (tmp->GetMonom().GetCoeff() > 0) {
+                res += " + ";
+            }
+            else {
+                res += " - ";
+                monomStr = monomStr.substr(1); // Убираем "-" из монома, так как знак уже добавлен
+            }
         }
         else {
-            if (tmp->GetMonom().GetCoeff() > 0)
-                res+= " + ";
-            else
-                res+= " - ";
-            res += tmp->GetMonom().Print();
+            isFirst = false;
         }
+
+        res += monomStr;
         tmp = tmp->Next;
     }
-    cout << res << endl;
+
+    cout << (res.empty() ? "0" : res) << endl;
 }
 
 
@@ -175,7 +193,8 @@ Polynom Polynom::operator*(double scalar) const {
     return result;
 }
 
-std::tuple<Polynom, Polynom> Polynom::operator/(const Polynom& divisor) const {
+std::tuple<Polynom, Polynom> Polynom::operator/(const Polynom& divisor) const 
+{
     if (divisor._head == nullptr) {
         throw std::runtime_error("Division by zero polynomial");
     }
@@ -201,7 +220,7 @@ std::tuple<Polynom, Polynom> Polynom::operator/(const Polynom& divisor) const {
         Polynom tempPoly;
         tempPoly.AppendMonom(currentQuotient);
         Polynom toSubtract = divisor * tempPoly;
-        dividend = dividend - toSubtract; // Исправлено: вычитаем, а не добавляем
+        dividend = dividend - toSubtract; 
     }
 
     return std::make_tuple(quotient, remainder);
